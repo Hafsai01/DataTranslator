@@ -62,11 +62,11 @@ def merge_vendor_ids(df_maestro, df_mapping):
     df_mapping['Code'] = df_mapping['Code'].astype(str).str.strip()
     df_maestro['Code'] = df_maestro['Code'].astype(str).str.strip()
 
-    df_merged = pd.merge(df_maestro, df_mapping[['Code', 'VENDOR_ID']],
+    df_merged = pd.merge(df_maestro, df_mapping[['Code', 'Intact_Vendor_ID']],
                          on='Code', how='left')
 
     # Reorder columns: VENDOR_ID + required columns
-    first_cols = ['VENDOR_ID'] + [col.title() for col in REQUIRED_COLUMNS]
+    first_cols = ['Intact_Vendor_ID'] + [col.title() for col in REQUIRED_COLUMNS]
     other_cols = [c for c in df_merged.columns if c not in first_cols]
     df_merged = df_merged[first_cols + other_cols]
 
@@ -85,9 +85,15 @@ if maestro_file and mapping_file:
 
         # Merge to get VENDOR_ID
         df_translated = merge_vendor_ids(df_maestro, df_mapping)
+        #Rename columns for output only
+        df_translated.rename(columns={
+            'Code': 'Maestro_ID',  # rename Code to Maestro_ID
+        }, inplace=True)
 
+        # Define final columns for output
+        final_cols = ['Intact_Vendor_ID', 'Maestro_ID'] + [col.title() for col in REQUIRED_COLUMNS if col.lower() != 'code']
         # Keep only the desired columns
-        final_cols = ['VENDOR_ID'] + [col.title() for col in REQUIRED_COLUMNS]
+        #final_cols = ['Intact_Vendor_ID'] + [col.title() for col in REQUIRED_COLUMNS]
         df_translated = df_translated[final_cols]
 
         st.success("Files processed successfully!")
@@ -109,4 +115,5 @@ if maestro_file and mapping_file:
 
     except Exception as e:
         st.error(f"Error processing files: {e}")
+
 
