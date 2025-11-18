@@ -2,7 +2,7 @@ import io
 import pandas as pd
 import streamlit as st
 
-REQUIRED_COLUMNS = ['code', 'invoice#', 'invoice date', 'total due', 'due date']
+REQUIRED_COLUMNS = ['code', 'invoice#', 'invoice date', 'due date', 'retainage', 'sub-total', 'total due']
 
 def normalize(s):
     try:
@@ -109,3 +109,4 @@ if maestro_file and mapping_file:
 
     except Exception as e:
         st.error(f"Error processing files: {e}")
+
