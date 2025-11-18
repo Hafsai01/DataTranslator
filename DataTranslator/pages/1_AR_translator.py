@@ -61,7 +61,7 @@ def merge_customer_ids(df_maestro, df_mapping):
     df_mapping['Code'] = df_mapping['Code'].astype(str).str.strip()
     df_maestro['Code'] = df_maestro['Code'].astype(str).str.strip()
 
-    df_merged = pd.merge(df_maestro, df_mapping[['Code', ''Intact_Customer_Id']],
+    df_merged = pd.merge(df_maestro, df_mapping[['Code', 'Intact_Customer_Id']],
                          on='Code', how='left')
 
     # Reorder columns: CUSTOMER_ID + required columns + any remaining
@@ -116,5 +116,6 @@ if maestro_file and mapping_file:
 
     except Exception as e:
         st.error(f"Error processing files: {e}")
+
 
 
