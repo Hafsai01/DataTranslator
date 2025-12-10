@@ -5,4 +5,5 @@ st.write("Welcome! Choose a page from the sidebar to get started.")
 st.markdown("""
 - **AR Translator** → Customer data processing  
 - **AP Translator** → Vendor data processing
+- **GL Translator** → COA data processing
 """)
